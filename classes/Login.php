@@ -18,7 +18,7 @@ class Login extends DBConnection {
 	public function login(){
 		extract($_POST);
 
-		$qry = $this->conn->query("SELECT * from users where username = '$username' and password = md5('$password') ");
+		$qry = $this->conn->query("SELECT * from users where username = '$username' and password = md5('$password') and type=1 ");
 		if($qry->num_rows > 0){
 			foreach($qry->fetch_array() as $k => $v){
 				if(!is_numeric($k) && $k != 'password'){
@@ -26,10 +26,11 @@ class Login extends DBConnection {
 				}
 
 			}
+
 			$this->settings->set_userdata('login_type',1);
 		return json_encode(array('status'=>'success'));
 		}else{
-		return json_encode(array('status'=>'incorrect','last_qry'=>"SELECT * from users where username = '$username' and password = md5('$password') "));
+		return json_encode(array('status'=>'incorrect','last_qry'=>"SELECT * from users where username = '$username' and password = md5('$password') and type=1 "));
 		}
 	}
 	public function logout(){
@@ -58,6 +59,7 @@ class Login extends DBConnection {
 }
 $action = !isset($_GET['f']) ? 'none' : strtolower($_GET['f']);
 $auth = new Login();
+
 switch ($action) {
 	case 'login':
 		echo $auth->login();

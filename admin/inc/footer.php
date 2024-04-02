@@ -17,9 +17,9 @@
               keyboard:false,
               focus:true
             })
-            end_loader()  
-
+            end_loader()
   }
+
     window.uni_modal = function($title = '' , $url='',$size=""){
         start_loader()
         $.ajax({
