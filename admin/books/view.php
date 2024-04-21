@@ -2,8 +2,8 @@
 include '../../config.php';
 if(isset($_GET['id'])){
     $qry = $conn->query("SELECT b.*,p.title,concat(u.firstname,' ',u.lastname) as name FROM book_list b inner join `packages` p on p.id = b.package_id inner join users u on u.id = b.user_id where b.id = '{$_GET['id']}' ");
-    $result = $qry->fetch_assoc(); // Fetch the result
-    $schedule = $result['schedule']; // Assign the value of the 'schedule' column to a variable
+    $result = $qry->fetch_assoc(); 
+    $schedule = $result['schedule']; 
     foreach($result as $k => $v){
         $$k = $v;
     }
