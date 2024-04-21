@@ -2,7 +2,9 @@
 include '../../config.php';
 if(isset($_GET['id'])){
     $qry = $conn->query("SELECT b.*,p.title,concat(u.firstname,' ',u.lastname) as name FROM book_list b inner join `packages` p on p.id = b.package_id inner join users u on u.id = b.user_id where b.id = '{$_GET['id']}' ");
-    foreach($qry->fetch_assoc() as $k => $v){
+    $result = $qry->fetch_assoc(); // Fetch the result
+    $schedule = $result['schedule']; // Assign the value of the 'schedule' column to a variable
+    foreach($result as $k => $v){
         $$k = $v;
     }
 }
@@ -14,7 +16,8 @@ if(isset($_GET['id'])){
 </style>
 <p><b>Package:</b> <?php echo $title ?></p>
 <p><b>Details:</b> <span class="truncate"><?php echo strip_tags(stripslashes(html_entity_decode($title))) ?></span></p>
-<p><b>Schedule:</b> <?php echo date("F d, Y",strtotime("schedule")) ?></p>
+<p><b>Schedule:</b> <?php echo date("F d, Y", strtotime($schedule)) ?></p>
+
 <form action="" id="book-status">
     <input type="hidden" name="id" value="<?php echo $id ?>">
     <div class="form-group">
