@@ -1,5 +1,11 @@
 <div class="container-fluid">
     <form action="" id="book-form">
+
+<!--        <div class="form-group">-->
+<!--            <label for="user_phone">Phone Number</label>-->
+<!--            <input type="text" id="user_phone" class='form form-control' required   name='user_phone'>-->
+<!--        </div>-->
+
         <div class="form-group">
             <input name="package_id" type="hidden" value="<?php echo $_GET['package_id'] ?>" >
             <input type="date" class='form form-control' required   name='schedule'>
