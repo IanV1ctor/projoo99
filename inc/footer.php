@@ -61,11 +61,12 @@
 <footer class="footer py-4">
 	<div class="container">
 		<div class="row align-items-center">
-<!--			<div class="col-lg-4 my-3 my-lg-0">-->
-<!--				<a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>-->
-<!--				<a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>-->
-<!--				<a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>-->
-<!--			</div>-->
+
+			<div class="col-lg-4 text-lg-start">Copyright &copy; <?php date('Y') ?></div>
+			<div class="col-lg-4 my-3 my-lg-0">
+				<a class="btn btn-dark btn-social mx-2" href="https://x.com/ceo_ti?t=EONDHqwAyl9OK5v23Kayxg&s=08" target="blank"><i class="fab fa-twitter"></i></a>
+				<a class="btn btn-dark btn-social mx-2" href="https://www.instagram.com/ngunyeeez?igsh=NTE3Nm5kcWtzc211" target="blank"><i class="fab fa-instagram"></i></a>
+			</div>
 			<div class="col-lg-4 text-lg-end">
 				<a class="link-dark text-decoration-none me-3" href="javascript:void(0)" id="p_use">Privacy Policy</a>
 			</div>
