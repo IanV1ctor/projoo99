@@ -1,5 +1,7 @@
 <?php
 require_once('../config.php');
+require_once 'Customsms.php';
+
 Class Master extends DBConnection {
 	private $settings;
 	public function __construct(){
@@ -98,8 +100,24 @@ Class Master extends DBConnection {
 		foreach($_POST as $k =>$v){
 			$data .= ", `{$k}` = '{$v}' ";
 		}
+        $package = $this->conn->query("SELECT * FROM `packages` WHERE id=".$_POST['package_id']);
+
+        $formatted_package = $package->fetch_assoc();
+
 		$save = $this->conn->query("INSERT INTO `book_list` set $data");
-		if($save){
+
+        $user_phone = $this->settings->userdata('user_phone');
+
+        $smsSender = new Customsms();
+
+        $to = $user_phone;
+
+        $message = 'Booking confirmed! 🎉 Get ready for an unforgettable adventure at '.$formatted_package['tour_location'].'! 
+        Need help? Just ask. See you soon! ✨';
+
+        $smsSender->sendSMS($to,$message);
+
+        if($save){
 			$resp['status'] = 'success';
 		}else{
 			$resp['status'] = 'failed';
@@ -111,8 +129,25 @@ Class Master extends DBConnection {
 		extract($_POST);
 		$update = $this->conn->query("UPDATE `book_list` set `status` = '{$status}' where id ='{$id}' ");
 		if($update){
+            $booking = $this->conn->query("SELECT * FROM `book_list` WHERE id ='{$id}' ");
+            $booking_data = $booking->fetch_assoc();
+
+            $package = $this->conn->query("SELECT * FROM `packages` WHERE id=".$booking_data['package_id']);
+
+            $formatted_package = $package->fetch_assoc();
+            $user_phone = $this->settings->userdata('user_phone');
+
+            $smsSender = new Customsms();
+            $to = $user_phone;
+
+            $message = "Great news! 🎉 Your booking for ".$formatted_package['tour_location']." has been confirmed. Get ready for an amazing experience on ".$booking_data['schedule'].". Adventure awaits!";
+
+            $smsSender->sendSMS($to,$message);
+
 			$resp['status'] = 'success';
+
 			$this->settings->set_flashdata('success',"Book successfully updated.");
+
 		}else{
 			$resp['status'] = 'failed';
 			$resp['error'] = $this->conn->error;
@@ -134,19 +169,32 @@ Class Master extends DBConnection {
 			return json_encode($resp);
 			exit;
 		}
+
 		$save = $this->conn->query("INSERT INTO `users` set $data ");
 		if($save){
 			foreach($_POST as $k =>$v){
 				$this->settings->set_userdata($k,$v);
 			}
 			$this->settings->set_userdata('id',$this->conn->insert_id);
-			$resp['status'] = 'success';
+
+            $smsSender = new Customsms();
+            $to = $_POST['user_phone'];
+
+            $message = 'Welcome to our platform! 🌍 thrilled to have you onboard. Your journey to seamless travel experiences begins here. Explore, discover, and make unforgettable memories with us. If you have any questions or need assistance, feel free to reach out. Happy travels! 🚀';
+
+            try {
+                $smsSender->sendSMS($to, $message);
+                $resp['status'] = 'success';
+                $resp['message'] = 'SMS sent successfully.';
+            } catch (Exception $e) {
+                $resp['status'] = 'failed';
+                echo 'An error occurred: ' . $e->getMessage();
+            }
 		}else{
 			$resp['status'] = 'failed';
 			$resp['error'] = $this->conn->error;
 		}
 		return json_encode($resp);
-
 	}
 	function update_account(){
 		extract($_POST);

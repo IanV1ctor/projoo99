@@ -40,6 +40,10 @@
                     <input type="text" class="form-control form-control-sm form" name="lastname" required>
                 </div>
                 <div class="form-group">
+                    <label for="" class="control-label">Phone</label>
+                    <input type="text" class="form-control form-control-sm form" name="user_phone" required>
+                </div>
+                <div class="form-group">
                     <label for="" class="control-label">Username</label>
                     <input type="text" class="form-control form-control-sm form" name="username" required>
                 </div>
